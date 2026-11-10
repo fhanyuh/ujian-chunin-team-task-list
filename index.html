@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papan Catatan Tugas Kelompok — Studi Kasus 6 Ujian Chunin Cloud Computing</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-ground: #f4f6f9;
+      --bg-surface: #ffffff;
+      --bg-subtle: #edf1f7;
+      --bg-navy: #0f1f38;
+      --bg-navy-elevated: #172b4d;
+      --border-line: #d8e0ea;
+      --border-strong: #b8c4d4;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #475569;
+      --text-on-navy: #f8fafc;
+      --text-on-navy-muted: #cbd5e1;
+      --accent-primary: #1d4ed8;
+      --accent-primary-hover: #1e40af;
+      --status-todo-bg: #dbeafe;
+      --status-todo-fg: #1e3a8a;
+      --status-prog-bg: #fef3c7;
+      --status-prog-fg: #78350f;
+      --status-done-bg: #d1fae5;
+      --status-done-fg: #065f46;
+      --prio-high-bg: #fee2e2;
+      --prio-high-fg: #991b1b;
+      --prio-med-bg: #ffedd5;
+      --prio-med-fg: #9a3412;
+      --prio-low-bg: #e0f2fe;
+      --prio-low-fg: #075985;
+      --danger-fg: #b91c1c;
+      --danger-bg: #fef2f2;
+      --danger-border: #fecaca;
+      --font-sans: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-ground);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1, h2 {
+      margin: 0;
+      text-wrap: balance;
+      letter-spacing: -0.015em;
+    }
+
+    h1 {
+      font-size: 2rem;
+      line-height: 1.2;
+      font-weight: 700;
+      color: var(--text-on-navy);
+    }
+
+    h2 {
+      font-size: 1.375rem;
+      line-height: 1.3;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    p {
+      margin: 0;
+      text-wrap: pretty;
+      max-width: 68ch;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .tabular {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Operational Header */
+    .ops-header {
+      background-color: var(--bg-navy);
+      color: var(--text-on-navy);
+      border-bottom: 1px solid #243b61;
+    }
+
+    .ops-header-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.25rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1.25rem;
+    }
+
+    .ops-title-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .ops-subtitle {
+      color: var(--text-on-navy-muted);
+      font-size: 0.9375rem;
+    }
+
+    .telemetry-strip {
+      background-color: var(--bg-navy-elevated);
+      border: 1px solid #2b446e;
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.8125rem;
+      color: var(--text-on-navy);
+    }
+
+    .telemetry-item {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .telemetry-label {
+      color: var(--text-on-navy-muted);
+      font-weight: 500;
+    }
+
+    .telemetry-badge {
+      background-color: #065f46;
+      color: #ecfdf5;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .telemetry-badge.error {
+      background-color: #991b1b;
+      color: #fef2f2;
+    }
+
+    /* Main Workspace Layout */
+    .workspace {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.5rem 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .surface-panel {
+      background-color: var(--bg-surface);
+      border-top: 2px solid var(--border-strong);
+      border-bottom: 1px solid var(--border-line);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .panel-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-bottom: 0.9rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .panel-description {
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+    }
+
+    /* Team Workload & Sprint Distribution Matrix */
+    .workload-summary-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .kpi-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .kpi-metric {
+      display: flex;
+      align-items: baseline;
+      gap: 0.45rem;
+    }
+
+    .kpi-value {
+      font-size: 1.375rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+      color: var(--text-primary);
+    }
+
+    .kpi-label {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .distribution-bar {
+      height: 14px;
+      background-color: var(--bg-subtle);
+      border-radius: 4px;
+      overflow: hidden;
+      display: flex;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-line);
+    }
+
+    .dist-segment {
+      height: 100%;
+      transition: width 180ms ease;
+    }
+
+    .dist-seg-0 { background-color: #1d4ed8; }
+    .dist-seg-1 { background-color: #0f766e; }
+    .dist-seg-2 { background-color: #b45309; }
+    .dist-seg-3 { background-color: #4338ca; }
+
+    .member-roster {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .member-filter-btn {
+      appearance: none;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-line);
+      border-radius: 6px;
+      padding: 0.75rem 0.9rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-family: var(--font-sans);
+      color: var(--text-primary);
+      min-height: 48px;
+    }
+
+    .member-filter-btn:hover {
+      border-color: var(--accent-primary);
+      background-color: #eff6ff;
+    }
+
+    .member-filter-btn[aria-pressed="true"] {
+      border-color: var(--accent-primary);
+      background-color: #dbeafe;
+    }
+
+    .member-top-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+    }
+
+    .member-dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      margin-right: 0.4rem;
+    }
+
+    .member-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-primary);
+    }
+
+    .member-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      width: 100%;
+    }
+
+    /* Two-column Operational Grid */
+    .ops-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.9rem;
+      align-items: start;
+    }
+
+    .form-grid-bottom {
+      display: grid;
+      grid-template-columns: 2fr auto;
+      gap: 0.9rem;
+      align-items: end;
+    }
+
+    /* Form Controls */
+    fieldset {
+      border: 0;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    legend {
+      padding: 0;
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .form-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    label {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    input[type="text"],
+    input[type="search"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      min-height: 48px;
+      padding: 0.6rem 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      color: var(--text-primary);
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+    }
+
+    textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    button:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 2px;
+    }
+
+    input:user-invalid,
+    textarea:user-invalid {
+      border-color: var(--danger-fg);
+      background-color: var(--danger-bg);
+    }
+
+    .field-error-msg {
+      display: none;
+      color: var(--danger-fg);
+      font-size: 0.8125rem;
+      font-weight: 500;
+    }
+
+    input:user-invalid + .field-error-msg {
+      display: block;
+    }
+
+    .btn-primary {
+      min-height: 48px;
+      padding: 0.65rem 1.15rem;
+      background-color: var(--accent-primary);
+      color: #ffffff;
+      font-family: var(--font-sans);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border: 1px solid var(--accent-primary);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--accent-primary-hover);
+    }
+
+    .btn-secondary {
+      min-height: 48px;
+      padding: 0.55rem 0.9rem;
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid var(--border-strong);
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+    }
+
+    /* Search & Filter Bar */
+    .filter-toolbar {
+      display: grid;
+      grid-template-columns: minmax(180px, 1.5fr) repeat(3, minmax(130px, 1fr)) auto;
+      gap: 0.75rem;
+      align-items: end;
+      margin-bottom: 1rem;
+    }
+
+    /* Notification Banner */
+    .status-banner {
+      padding: 0.65rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      border: 1px solid var(--border-line);
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .status-banner.success {
+      background-color: #ecfdf5;
+      border-color: #a7f3d0;
+      color: #065f46;
+    }
+
+    .status-banner.error {
+      background-color: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger-fg);
+    }
+
+    /* Data Table */
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.875rem;
+    }
+
+    th {
+      background-color: var(--bg-subtle);
+      color: var(--text-secondary);
+      font-weight: 600;
+      padding: 0.75rem 0.9rem;
+      border-top: 1px solid var(--border-line);
+      border-bottom: 1px solid var(--border-line);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0.85rem 0.9rem;
+      border-bottom: 1px solid var(--border-line);
+      vertical-align: top;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    tbody tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .task-title-cell {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .task-notes-cell {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-status-todo {
+      background-color: var(--status-todo-bg);
+      color: var(--status-todo-fg);
+    }
+
+    .badge-status-prog {
+      background-color: var(--status-prog-bg);
+      color: var(--status-prog-fg);
+    }
+
+    .badge-status-done {
+      background-color: var(--status-done-bg);
+      color: var(--status-done-fg);
+    }
+
+    .badge-prio-high {
+      background-color: var(--prio-high-bg);
+      color: var(--prio-high-fg);
+    }
+
+    .badge-prio-med {
+      background-color: var(--prio-med-bg);
+      color: var(--prio-med-fg);
+    }
+
+    .badge-prio-low {
+      background-color: var(--prio-low-bg);
+      color: var(--prio-low-fg);
+    }
+
+    .row-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      white-space: nowrap;
+    }
+
+    .btn-row-status {
+      min-height: 36px;
+      padding: 0.35rem 0.65rem;
+      background-color: var(--bg-subtle);
+      color: var(--text-primary);
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-row-status:hover {
+      background-color: #e2e8f0;
+    }
+
+    .btn-row-delete {
+      min-height: 36px;
+      padding: 0.35rem 0.65rem;
+      background-color: var(--danger-bg);
+      color: var(--danger-fg);
+      border: 1px solid var(--danger-border);
+      border-radius: 4px;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-row-delete:hover {
+      background-color: #fee2e2;
+    }
+
+    .empty-state {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+
+    @media (max-width: 1120px) {
+      .ops-grid {
+        grid-template-columns: 1fr;
+      }
+      .member-roster {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .filter-toolbar {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="ops-header">
+    <div class="ops-header-inner">
+      <div class="ops-title-block">
+        <h1>Papan Catatan Tugas Kelompok</h1>
+        <p class="ops-subtitle">Studi Kasus 6 Ujian Chunin Cloud Computing — Orkestrasi Fullstack Docker &amp; Otomatisasi Pipeline Jenkins CI/CD</p>
+      </div>
+      <div class="telemetry-strip" aria-label="Status Koneksi Kontainer dan Penyimpanan">
+        <div class="telemetry-item">
+          <span class="telemetry-label">Upstream DNS:</span>
+          <span class="mono">backend:5000 (app-net)</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">Named Volume:</span>
+          <span class="mono" id="telemetry-volume">team-task-data:/var/lib/backend_data/tasks.json</span>
+        </div>
+        <div class="telemetry-item">
+          <span class="telemetry-label">HTTP Terakhir:</span>
+          <span class="telemetry-badge" id="telemetry-http">GET /tasks · 200 OK (4 ms)</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="workspace">
+    <!-- Section 1: Team Workload & Sprint Distribution Matrix -->
+    <section class="surface-panel" aria-labelledby="heading-workload">
+      <div class="panel-header">
+        <div>
+          <h2 id="heading-workload">Distribusi Beban Kerja Anggota Kelompok</h2>
+          <p class="panel-description">Klik kartu anggota untuk memfilter daftar tugas berdasarkan penanggung jawab secara langsung.</p>
+        </div>
+        <div class="kpi-strip">
+          <div class="kpi-metric">
+            <span class="kpi-value" id="metric-total">0</span>
+            <span class="kpi-label">Total Tugas</span>
+          </div>
+          <div class="kpi-metric">
+            <span class="kpi-value" id="metric-todo">0</span>
+            <span class="kpi-label">Todo</span>
+          </div>
+          <div class="kpi-metric">
+            <span class="kpi-value" id="metric-prog">0</span>
+            <span class="kpi-label">In Progress</span>
+          </div>
+          <div class="kpi-metric">
+            <span class="kpi-value" id="metric-done">0</span>
+            <span class="kpi-label">Done</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="distribution-bar" aria-label="Proporsi tugas per anggota kelompok">
+        <div class="dist-segment dist-seg-0" id="seg-0" style="width: 25%"></div>
+        <div class="dist-segment dist-seg-1" id="seg-1" style="width: 25%"></div>
+        <div class="dist-segment dist-seg-2" id="seg-2" style="width: 25%"></div>
+        <div class="dist-segment dist-seg-3" id="seg-3" style="width: 25%"></div>
+      </div>
+
+      <div class="member-roster" id="member-roster">
+        <button type="button" class="member-filter-btn" data-member="Rafhan Mazaya Fathurrahman" aria-pressed="false">
+          <div class="member-top-line">
+            <span class="member-name"><span class="member-dot dist-seg-0"></span>Rafhan Mazaya Fathurrahman</span>
+            <span class="mono" id="count-member-0">0 tugas</span>
+          </div>
+          <div class="member-meta">
+            <span class="mono">NIM 101012300238</span>
+            <span id="pct-member-0">0% beban</span>
+          </div>
+        </button>
+
+        <button type="button" class="member-filter-btn" data-member="Zahra Talitha Putri" aria-pressed="false">
+          <div class="member-top-line">
+            <span class="member-name"><span class="member-dot dist-seg-1"></span>Zahra Talitha Putri</span>
+            <span class="mono" id="count-member-1">0 tugas</span>
+          </div>
+          <div class="member-meta">
+            <span class="mono">NIM 101012300192</span>
+            <span id="pct-member-1">0% beban</span>
+          </div>
+        </button>
+
+        <button type="button" class="member-filter-btn" data-member="Clara Novita Fitriani" aria-pressed="false">
+          <div class="member-top-line">
+            <span class="member-name"><span class="member-dot dist-seg-2"></span>Clara Novita Fitriani</span>
+            <span class="mono" id="count-member-2">0 tugas</span>
+          </div>
+          <div class="member-meta">
+            <span class="mono">NIM 101012330008</span>
+            <span id="pct-member-2">0% beban</span>
+          </div>
+        </button>
+
+        <button type="button" class="member-filter-btn" data-member="Rafif Riqullah Siregar" aria-pressed="false">
+          <div class="member-top-line">
+            <span class="member-name"><span class="member-dot dist-seg-3"></span>Rafif Riqullah Siregar</span>
+            <span class="mono" id="count-member-3">0 tugas</span>
+          </div>
+          <div class="member-meta">
+            <span class="mono">NIM 101012300320</span>
+            <span id="pct-member-3">0% beban</span>
+          </div>
+        </button>
+      </div>
+    </section>
+
+    <div class="ops-grid">
+      <!-- Section 2: Add Task Form -->
+      <section class="surface-panel" aria-labelledby="heading-form">
+        <div class="panel-header">
+          <div>
+            <h2 id="heading-form">Tambah Catatan Tugas Baru</h2>
+            <p class="panel-description">Mengirim request <code class="mono">POST /tasks</code> ke kontainer backend.</p>
+          </div>
+        </div>
+
+        <form id="task-form" novalidate>
+          <fieldset>
+            <legend>Formulir Penugasan Kelompok</legend>
+
+            <div class="form-grid-3">
+              <div class="form-field">
+                <label for="input-title">Judul Tugas Kelompok</label>
+                <input type="text" id="input-title" name="title" required aria-invalid="false" data-error="title-error" placeholder="Contoh: Pengujian Webhook Otomatis Jenkins" autocomplete="off">
+                <div id="title-error" class="field-error-msg">
+                  <span role="img" aria-label="Error">!</span> Masukkan judul tugas kelompok terlebih dahulu.
+                </div>
+              </div>
+
+              <div class="form-field">
+                <label for="input-assignee">Penanggung Jawab Anggota</label>
+                <select id="input-assignee" name="assignee">
+                  <option value="Rafhan Mazaya Fathurrahman">Rafhan Mazaya Fathurrahman (101012300238)</option>
+                  <option value="Zahra Talitha Putri">Zahra Talitha Putri (101012300192)</option>
+                  <option value="Clara Novita Fitriani">Clara Novita Fitriani (101012330008)</option>
+                  <option value="Rafif Riqullah Siregar">Rafif Riqullah Siregar (101012300320)</option>
+                </select>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-field">
+                  <label for="input-priority">Prioritas</label>
+                  <select id="input-priority" name="priority">
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+
+                <div class="form-field">
+                  <label for="input-status">Status Awal</label>
+                  <select id="input-status" name="status">
+                    <option value="Todo" selected>Todo</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Done">Done</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <div class="form-field">
+                <label for="input-category">Modul / Kategori</label>
+                <input type="text" id="input-category" name="category" value="DevOps &amp; CI/CD" autocomplete="off">
+              </div>
+
+              <div class="form-field">
+                <label for="input-due">Tenggat Waktu</label>
+                <input type="date" id="input-due" name="due_date" value="2026-11-15">
+              </div>
+
+              <div class="form-grid-bottom">
+                <div class="form-field">
+                  <label for="input-notes">Catatan Teknis</label>
+                  <input type="text" id="input-notes" name="notes" placeholder="Rincian implementasi atau endpoint yang diuji..." autocomplete="off">
+                </div>
+                <button type="submit" class="btn-primary" id="btn-submit-task">Simpan Tugas</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </section>
+
+      <!-- Section 3: Task Board Table & Live Search -->
+      <section class="surface-panel" aria-labelledby="heading-board">
+        <div class="panel-header">
+          <div>
+            <h2 id="heading-board">Daftar Tugas &amp; Catatan Aktif</h2>
+            <p class="panel-description">Data persisten dari <code class="mono">/var/lib/backend_data/tasks.json</code> pada Named Volume <code class="mono">team-task-data</code>.</p>
+          </div>
+          <button type="button" class="btn-secondary" id="btn-refresh">Muat Ulang Data</button>
+        </div>
+
+        <search aria-label="Pencarian dan Filter Daftar Tugas">
+          <div class="filter-toolbar">
+            <div class="form-field">
+              <label for="filter-q">Cari Kata Kunci</label>
+              <input type="search" id="filter-q" placeholder="Judul, catatan, NIM...">
+            </div>
+
+            <div class="form-field">
+              <label for="filter-assignee">Anggota</label>
+              <select id="filter-assignee">
+                <option value="">Semua Anggota</option>
+                <option value="Rafhan Mazaya Fathurrahman">Rafhan Mazaya Fathurrahman</option>
+                <option value="Zahra Talitha Putri">Zahra Talitha Putri</option>
+                <option value="Clara Novita Fitriani">Clara Novita Fitriani</option>
+                <option value="Rafif Riqullah Siregar">Rafif Riqullah Siregar</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="filter-priority">Prioritas</label>
+              <select id="filter-priority">
+                <option value="">Semua Prioritas</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="filter-status">Status</label>
+              <select id="filter-status">
+                <option value="">Semua Status</option>
+                <option value="Todo">Todo</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Done">Done</option>
+              </select>
+            </div>
+
+            <button type="button" class="btn-secondary" id="btn-reset-filter">Reset Filter</button>
+          </div>
+        </search>
+
+        <div id="live-status" class="status-banner" role="status" aria-live="polite">
+          <span id="live-status-text">Siap menerima operasi CRUD pada endpoint /tasks.</span>
+          <span class="mono" id="live-status-code">HTTP 200</span>
+        </div>
+
+        <div class="table-scroll" tabindex="0" role="region" aria-labelledby="heading-board">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Index</th>
+                <th scope="col">Judul Tugas &amp; Catatan Teknis</th>
+                <th scope="col">Penanggung Jawab</th>
+                <th scope="col">Prioritas</th>
+                <th scope="col">Status</th>
+                <th scope="col">Tenggat</th>
+                <th scope="col">Aksi Real-Time</th>
+              </tr>
+            </thead>
+            <tbody id="task-table-body">
+              <tr>
+                <td colspan="7" class="empty-state">Memuat data tugas dari kontainer backend...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      const MEMBERS = [
+        "Rafhan Mazaya Fathurrahman",
+        "Zahra Talitha Putri",
+        "Clara Novita Fitriani",
+        "Rafif Riqullah Siregar"
+      ];
+
+      const NEXT_STATUS = {
+        "Todo": "In Progress",
+        "In Progress": "Done",
+        "Done": "Todo"
+      };
+
+      const taskForm = document.getElementById("task-form");
+      const taskTableBody = document.getElementById("task-table-body");
+      const liveStatus = document.getElementById("live-status");
+      const liveStatusText = document.getElementById("live-status-text");
+      const liveStatusCode = document.getElementById("live-status-code");
+      const telemetryHttp = document.getElementById("telemetry-http");
+
+      const filterQ = document.getElementById("filter-q");
+      const filterAssignee = document.getElementById("filter-assignee");
+      const filterPriority = document.getElementById("filter-priority");
+      const filterStatus = document.getElementById("filter-status");
+      const btnResetFilter = document.getElementById("btn-reset-filter");
+      const btnRefresh = document.getElementById("btn-refresh");
+      const memberButtons = Array.from(document.querySelectorAll(".member-filter-btn"));
+
+      let apiBase = "";
+
+      async function apiRequest(path, options) {
+        const t0 = performance.now();
+        const method = (options && options.method) || "GET";
+        let response;
+        try {
+          response = await fetch(apiBase + path, options);
+          if (response.status === 404 && !apiBase && window.location.port !== "5000") {
+            apiBase = "http://localhost:5000";
+            response = await fetch(apiBase + path, options);
+          }
+        } catch (err) {
+          if (!apiBase) {
+            apiBase = "http://localhost:5000";
+            response = await fetch(apiBase + path, options);
+          } else {
+            throw err;
+          }
+        }
+        const elapsed = Math.max(1, Math.round(performance.now() - t0));
+        const data = await response.json().catch(function () { return {}; });
+        const badgeText = method + " " + path + " · " + response.status + " (" + elapsed + " ms)";
+        telemetryHttp.textContent = badgeText;
+        if (response.ok) {
+          telemetryHttp.classList.remove("error");
+        } else {
+          telemetryHttp.classList.add("error");
+        }
+        return { ok: response.ok, status: response.status, data: data, elapsed: elapsed };
+      }
+
+      function setBanner(message, codeText, variant) {
+        liveStatusText.textContent = message;
+        liveStatusCode.textContent = codeText;
+        liveStatus.className = "status-banner" + (variant ? " " + variant : "");
+      }
+
+      function escapeHtml(str) {
+        return String(str == null ? "" : str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function statusBadgeClass(status) {
+        if (status === "Done") return "badge badge-status-done";
+        if (status === "In Progress") return "badge badge-status-prog";
+        return "badge badge-status-todo";
+      }
+
+      function priorityBadgeClass(priority) {
+        if (priority === "High") return "badge badge-prio-high";
+        if (priority === "Low") return "badge badge-prio-low";
+        return "badge badge-prio-med";
+      }
+
+      function updateWorkloadMatrix(summary, totalAll) {
+        const safeTotal = totalAll || 0;
+        document.getElementById("metric-total").textContent = String(safeTotal);
+        document.getElementById("metric-todo").textContent = String((summary && summary.todo) || 0);
+        document.getElementById("metric-prog").textContent = String((summary && summary.in_progress) || 0);
+        document.getElementById("metric-done").textContent = String((summary && summary.done) || 0);
+
+        const byAssignee = (summary && summary.by_assignee) || {};
+        MEMBERS.forEach(function (member, idx) {
+          const info = byAssignee[member] || { total: 0 };
+          const count = info.total || 0;
+          const pct = safeTotal > 0 ? Math.round((count / safeTotal) * 100) : 25;
+          const countEl = document.getElementById("count-member-" + idx);
+          const pctEl = document.getElementById("pct-member-" + idx);
+          const segEl = document.getElementById("seg-" + idx);
+          if (countEl) countEl.textContent = count + " tugas";
+          if (pctEl) pctEl.textContent = (safeTotal > 0 ? Math.round((count / safeTotal) * 100) : 0) + "% beban";
+          if (segEl) segEl.style.width = pct + "%";
+        });
+      }
+
+      function renderTasks(tasks) {
+        if (!tasks || tasks.length === 0) {
+          taskTableBody.innerHTML = '<tr><td colspan="7" class="empty-state">Tidak ada tugas yang cocok dengan filter saat ini.</td></tr>';
+          return;
+        }
+
+        const rowsHtml = tasks.map(function (item) {
+          const idx = item.index;
+          const nextSt = NEXT_STATUS[item.status] || "In Progress";
+          return (
+            '<tr data-task-index="' + idx + '">' +
+              '<td class="mono">#' + idx + '</td>' +
+              '<td>' +
+                '<div class="task-title-cell">' + escapeHtml(item.title) + '</div>' +
+                '<div class="task-notes-cell">' +
+                  '<span class="mono">[' + escapeHtml(item.category || "Cloud") + ']</span> ' +
+                  escapeHtml(item.notes || "-") +
+                '</div>' +
+              '</td>' +
+              '<td>' +
+                '<div><strong>' + escapeHtml(item.assignee) + '</strong></div>' +
+                '<div class="mono task-notes-cell">NIM ' + escapeHtml(item.nim) + '</div>' +
+              '</td>' +
+              '<td><span class="' + priorityBadgeClass(item.priority) + '">' + escapeHtml(item.priority) + '</span></td>' +
+              '<td><span class="' + statusBadgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>' +
+              '<td class="mono">' + escapeHtml(item.due_date || "-") + '</td>' +
+              '<td>' +
+                '<div class="row-actions">' +
+                  '<button type="button" class="btn-row-status" data-action="cycle-status" data-index="' + idx + '" data-next="' + escapeHtml(nextSt) + '">' +
+                    'Ubah ke ' + escapeHtml(nextSt) +
+                  '</button>' +
+                  '<button type="button" class="btn-row-delete" data-action="delete-task" data-index="' + idx + '">' +
+                    'Hapus' +
+                  '</button>' +
+                '</div>' +
+              '</td>' +
+            '</tr>'
+          );
+        }).join("");
+
+        taskTableBody.innerHTML = rowsHtml;
+      }
+
+      async function loadTasks() {
+        const params = new URLSearchParams();
+        if (filterQ.value.trim()) params.set("q", filterQ.value.trim());
+        if (filterAssignee.value) params.set("assignee", filterAssignee.value);
+        if (filterPriority.value) params.set("priority", filterPriority.value);
+        if (filterStatus.value) params.set("status", filterStatus.value);
+
+        const qs = params.toString();
+        const path = "/tasks" + (qs ? "?" + qs : "");
+        try {
+          const res = await apiRequest(path, { method: "GET" });
+          if (res.ok) {
+            renderTasks(res.data.tasks || []);
+            updateWorkloadMatrix(res.data.summary, res.data.total_all);
+          } else {
+            setBanner(res.data.error || "Gagal memuat daftar tugas", "HTTP " + res.status, "error");
+          }
+        } catch (err) {
+          setBanner("Tidak dapat menghubungi kontainer backend:5000.", "NETWORK ERROR", "error");
+        }
+      }
+
+      taskForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        const titleInput = document.getElementById("input-title");
+        const payload = {
+          title: titleInput.value.trim(),
+          assignee: document.getElementById("input-assignee").value,
+          priority: document.getElementById("input-priority").value,
+          status: document.getElementById("input-status").value,
+          category: document.getElementById("input-category").value.trim(),
+          due_date: document.getElementById("input-due").value,
+          notes: document.getElementById("input-notes").value.trim()
+        };
+
+        try {
+          const res = await apiRequest("/tasks", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (res.ok) {
+            titleInput.value = "";
+            document.getElementById("input-notes").value = "";
+            setBanner(
+              "Tugas baru berhasil disimpan ke /var/lib/backend_data/tasks.json pada index #" + res.data.index + ".",
+              "HTTP " + res.status + " Created",
+              "success"
+            );
+            await loadTasks();
+          } else {
+            setBanner(
+              res.data.error || "Validasi gagal saat menambah tugas.",
+              "HTTP " + res.status + " Bad Request",
+              "error"
+            );
+          }
+        } catch (err) {
+          setBanner("Gagal mengirim request POST /tasks ke backend.", "NETWORK ERROR", "error");
+        }
+      });
+
+      taskTableBody.addEventListener("click", async function (event) {
+        const button = event.target.closest("button[data-action]");
+        if (!button) return;
+
+        const action = button.getAttribute("data-action");
+        const index = button.getAttribute("data-index");
+
+        if (action === "delete-task") {
+          try {
+            const res = await apiRequest("/tasks?index=" + encodeURIComponent(index), {
+              method: "DELETE"
+            });
+            if (res.ok) {
+              setBanner(
+                "Tugas pada index #" + index + " (\"" + (res.data.removed && res.data.removed.title ? res.data.removed.title : "") + "\") berhasil dihapus dari tasks.json.",
+                "HTTP " + res.status + " OK",
+                "success"
+              );
+              await loadTasks();
+            } else {
+              setBanner(
+                res.data.error || "Gagal menghapus tugas.",
+                "HTTP " + res.status,
+                "error"
+              );
+            }
+          } catch (err) {
+            setBanner("Gagal mengirim request DELETE ke backend.", "NETWORK ERROR", "error");
+          }
+        } else if (action === "cycle-status") {
+          const nextStatus = button.getAttribute("data-next");
+          try {
+            const res = await apiRequest("/tasks?index=" + encodeURIComponent(index), {
+              method: "PATCH",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ status: nextStatus })
+            });
+            if (res.ok) {
+              setBanner(
+                "Status tugas index #" + index + " diperbarui menjadi \"" + nextStatus + "\".",
+                "HTTP " + res.status + " OK",
+                "success"
+              );
+              await loadTasks();
+            } else {
+              setBanner(res.data.error || "Gagal memperbarui status tugas.", "HTTP " + res.status, "error");
+            }
+          } catch (err) {
+            setBanner("Gagal mengirim request PATCH ke backend.", "NETWORK ERROR", "error");
+          }
+        }
+      });
+
+      function syncMemberFilterButtons() {
+        const current = filterAssignee.value;
+        memberButtons.forEach(function (btn) {
+          const isMatch = btn.getAttribute("data-member") === current;
+          btn.setAttribute("aria-pressed", isMatch ? "true" : "false");
+        });
+      }
+
+      memberButtons.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          const member = btn.getAttribute("data-member");
+          filterAssignee.value = filterAssignee.value === member ? "" : member;
+          syncMemberFilterButtons();
+          loadTasks();
+        });
+      });
+
+      filterQ.addEventListener("input", function () { loadTasks(); });
+      filterAssignee.addEventListener("change", function () {
+        syncMemberFilterButtons();
+        loadTasks();
+      });
+      filterPriority.addEventListener("change", function () { loadTasks(); });
+      filterStatus.addEventListener("change", function () { loadTasks(); });
+
+      btnResetFilter.addEventListener("click", function () {
+        filterQ.value = "";
+        filterAssignee.value = "";
+        filterPriority.value = "";
+        filterStatus.value = "";
+        syncMemberFilterButtons();
+        loadTasks();
+      });
+
+      btnRefresh.addEventListener("click", function () {
+        loadTasks();
+      });
+
+      loadTasks();
+    })();
+  </script>
+</body>
+</html>
