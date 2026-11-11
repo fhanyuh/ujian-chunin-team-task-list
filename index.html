@@ -99,14 +99,14 @@
     }
 
     .ops-header-inner {
-      max-width: 1440px;
+      max-width: 1680px;
       margin: 0 auto;
-      padding: 1.25rem 2rem;
+      padding: 0.7rem 1.5rem;
       display: flex;
       flex-wrap: wrap;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      gap: 1.25rem;
+      gap: 0.75rem;
     }
 
     .ops-title-block {
@@ -161,19 +161,19 @@
 
     /* Main Workspace Layout */
     .workspace {
-      max-width: 1440px;
+      max-width: 1680px;
       margin: 0 auto;
-      padding: 1.5rem 2rem 2.5rem;
+      padding: 0.7rem 1.5rem 1rem;
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 0.65rem;
     }
 
     .surface-panel {
       background-color: var(--bg-surface);
       border-top: 2px solid var(--border-strong);
       border-bottom: 1px solid var(--border-line);
-      padding: 1.25rem 1.5rem;
+      padding: 0.65rem 1.15rem;
     }
 
     .panel-header {
@@ -181,17 +181,16 @@
       flex-wrap: wrap;
       align-items: baseline;
       justify-content: space-between;
-      gap: 0.75rem;
-      padding-bottom: 0.9rem;
-      margin-bottom: 1rem;
+      gap: 0.5rem;
+      padding-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
       border-bottom: 1px solid var(--border-line);
     }
 
     .panel-description {
       color: var(--text-secondary);
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
     }
-
     /* Team Workload & Sprint Distribution Matrix */
     .workload-summary-row {
       display: flex;
@@ -229,12 +228,12 @@
     }
 
     .distribution-bar {
-      height: 14px;
+      height: 10px;
       background-color: var(--bg-subtle);
       border-radius: 4px;
       overflow: hidden;
       display: flex;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       border: 1px solid var(--border-line);
     }
 
@@ -259,15 +258,14 @@
       background-color: var(--bg-subtle);
       border: 1px solid var(--border-line);
       border-radius: 6px;
-      padding: 0.75rem 0.9rem;
+      padding: 0.45rem 0.75rem;
       text-align: left;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.15rem;
       font-family: var(--font-sans);
       color: var(--text-primary);
-      min-height: 48px;
     }
 
     .member-filter-btn:hover {
@@ -315,20 +313,20 @@
     .ops-grid {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 0.65rem;
     }
 
     .form-grid-3 {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.9rem;
+      grid-template-columns: 1.5fr 1.2fr 0.9fr;
+      gap: 0.65rem;
       align-items: start;
     }
 
     .form-grid-bottom {
       display: grid;
-      grid-template-columns: 2fr auto;
-      gap: 0.9rem;
+      grid-template-columns: 1fr auto;
+      gap: 0.65rem;
       align-items: end;
     }
 
@@ -339,31 +337,34 @@
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 0.45rem;
     }
 
     legend {
+      position: absolute;
+      width: 1px;
+      height: 1px;
       padding: 0;
-      font-weight: 600;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      margin-bottom: 0.5rem;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
     }
 
     .form-field {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.2rem;
     }
 
     .form-row-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
+      gap: 0.65rem;
     }
 
     label {
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       color: var(--text-primary);
     }
@@ -374,14 +375,14 @@
     select,
     textarea {
       width: 100%;
-      min-height: 48px;
-      padding: 0.6rem 0.75rem;
+      min-height: 36px;
+      padding: 0.35rem 0.65rem;
       font-family: var(--font-sans);
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       color: var(--text-primary);
       background-color: var(--bg-surface);
       border: 1px solid var(--border-strong);
-      border-radius: 6px;
+      border-radius: 5px;
     }
 
     textarea {
@@ -415,15 +416,15 @@
     }
 
     .btn-primary {
-      min-height: 48px;
-      padding: 0.65rem 1.15rem;
+      min-height: 36px;
+      padding: 0.4rem 1rem;
       background-color: var(--accent-primary);
       color: #ffffff;
       font-family: var(--font-sans);
-      font-size: 0.9375rem;
+      font-size: 0.875rem;
       font-weight: 600;
       border: 1px solid var(--accent-primary);
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -432,15 +433,15 @@
     }
 
     .btn-secondary {
-      min-height: 48px;
-      padding: 0.55rem 0.9rem;
+      min-height: 36px;
+      padding: 0.35rem 0.8rem;
       background-color: var(--bg-subtle);
       color: var(--text-primary);
       font-family: var(--font-sans);
-      font-size: 0.875rem;
+      font-size: 0.8125rem;
       font-weight: 600;
       border: 1px solid var(--border-strong);
-      border-radius: 6px;
+      border-radius: 5px;
       cursor: pointer;
     }
 
@@ -452,18 +453,18 @@
     .filter-toolbar {
       display: grid;
       grid-template-columns: minmax(180px, 1.5fr) repeat(3, minmax(130px, 1fr)) auto;
-      gap: 0.75rem;
+      gap: 0.65rem;
       align-items: end;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
     }
 
     /* Notification Banner */
     .status-banner {
-      padding: 0.65rem 0.9rem;
-      border-radius: 6px;
-      font-size: 0.875rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 5px;
+      font-size: 0.8125rem;
       font-weight: 500;
-      margin-bottom: 1rem;
+      margin-bottom: 0.5rem;
       border: 1px solid var(--border-line);
       background-color: var(--bg-subtle);
       color: var(--text-primary);
@@ -502,16 +503,16 @@
       background-color: var(--bg-subtle);
       color: var(--text-secondary);
       font-weight: 600;
-      padding: 0.75rem 0.9rem;
+      padding: 0.45rem 0.75rem;
       border-top: 1px solid var(--border-line);
       border-bottom: 1px solid var(--border-line);
       white-space: nowrap;
     }
 
     td {
-      padding: 0.85rem 0.9rem;
+      padding: 0.45rem 0.75rem;
       border-bottom: 1px solid var(--border-line);
-      vertical-align: top;
+      vertical-align: middle;
     }
 
     tbody tr:last-child td {
@@ -1012,7 +1013,7 @@
           return;
         }
 
-        const rowsHtml = tasks.map(function (item) {
+        const rowsHtml = tasks.slice().reverse().map(function (item) {
           const idx = item.index;
           const nextSt = NEXT_STATUS[item.status] || "In Progress";
           return (
