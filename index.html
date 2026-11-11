@@ -1101,10 +1101,9 @@
           });
 
           if (res.ok) {
-            titleInput.value = "";
+            taskForm.reset();
             titleInput.dataset.touched = "false";
             syncAria(titleInput);
-            document.getElementById("input-notes").value = "";
             setBanner(
               "Tugas \"" + payload.title + "\" berhasil ditambahkan ke daftar.",
               undefined,
