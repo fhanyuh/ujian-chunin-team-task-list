@@ -6,6 +6,7 @@ pipeline {
         BACKEND_IMAGE = 'team-task-backend'
         COMPOSE_PROJECT = 'ujian-chunin'
         HOST_PROJECT_DIR = '/home/hanmazaya/Documents/tugas-kuliah/cc/ujian-chunin'
+        PUBLIC_URL = 'https://cc.fhanmazaya.my.id'
     }
 
     stages {
@@ -42,14 +43,14 @@ pipeline {
 
         stage('4. Automated Deployment') {
             steps {
-                echo 'Stage 4: Menyinkronkan Bind Mount dan menjalankan ulang stack Docker Compose'
+                echo 'Stage 4: Menyinkronkan direktori Bind Mount dan menjalankan ulang stack Docker Compose'
                 sh '''
                     docker stop production-api-container 2>/dev/null || true
                     docker rm production-api-container 2>/dev/null || true
                     docker run --rm -i -v ${HOST_PROJECT_DIR}:/host_dir alpine:3.20 sh -c "cat > /host_dir/index.html" < index.html
                     docker run --rm -i -v ${HOST_PROJECT_DIR}:/host_dir alpine:3.20 sh -c "cat > /host_dir/docker-compose.yml" < docker-compose.yml
                     docker run --rm -i -v ${HOST_PROJECT_DIR}:/host_dir alpine:3.20 sh -c "cat > /host_dir/app.py" < app.py
-                    FRONTEND_HTML_PATH=${HOST_PROJECT_DIR}/index.html docker compose -p ${COMPOSE_PROJECT} up -d --force-recreate
+                    FRONTEND_DIR_PATH=${HOST_PROJECT_DIR} docker compose -p ${COMPOSE_PROJECT} up -d --force-recreate
                 '''
             }
         }

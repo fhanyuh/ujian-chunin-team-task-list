@@ -643,6 +643,10 @@
       </div>
       <div class="telemetry-strip" aria-label="Status Koneksi Kontainer dan Penyimpanan">
         <div class="telemetry-item">
+          <span class="telemetry-label">Domain Publik:</span>
+          <span class="mono">cc.fhanmazaya.my.id</span>
+        </div>
+        <div class="telemetry-item">
           <span class="telemetry-label">Upstream DNS:</span>
           <span class="mono">backend:5000 (app-net)</span>
         </div>
@@ -1072,9 +1076,49 @@
         }
       }
 
+      function linkError(el, shown) {
+        const errorId = el.dataset.error;
+        if (!errorId) return;
+        const ids = (el.getAttribute("aria-describedby") || "").split(/\s+/).filter(function (id) {
+          return id && id !== errorId;
+        });
+        if (shown) ids.push(errorId);
+        if (ids.length) el.setAttribute("aria-describedby", ids.join(" "));
+        else el.removeAttribute("aria-describedby");
+      }
+
+      function syncAria(el) {
+        if (!el || !el.matches || !el.matches("input, select, textarea")) return;
+        const invalid = el.matches(":user-invalid") || (el.dataset.touched === "true" && !el.validity.valid);
+        el.setAttribute("aria-invalid", invalid ? "true" : "false");
+        linkError(el, invalid);
+      }
+
+      document.addEventListener("blur", function (e) {
+        if (e.target && e.target.matches && e.target.matches("input, select, textarea")) {
+          e.target.dataset.touched = "true";
+          syncAria(e.target);
+        }
+      }, true);
+
+      document.addEventListener("input", function (e) {
+        if (e.target && e.target.hasAttribute && e.target.hasAttribute("aria-invalid")) {
+          syncAria(e.target);
+        }
+      });
+
+      document.addEventListener("invalid", function (e) {
+        if (e.target && e.target.dataset) {
+          e.target.dataset.touched = "true";
+          syncAria(e.target);
+        }
+      }, true);
+
       taskForm.addEventListener("submit", async function (event) {
         event.preventDefault();
         const titleInput = document.getElementById("input-title");
+        titleInput.dataset.touched = "true";
+        syncAria(titleInput);
         const payload = {
           title: titleInput.value.trim(),
           assignee: document.getElementById("input-assignee").value,
@@ -1094,6 +1138,8 @@
 
           if (res.ok) {
             titleInput.value = "";
+            titleInput.dataset.touched = "false";
+            syncAria(titleInput);
             document.getElementById("input-notes").value = "";
             setBanner(
               "Tugas baru berhasil disimpan ke /var/lib/backend_data/tasks.json pada index #" + res.data.index + ".",
