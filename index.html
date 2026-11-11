@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Papan Catatan Tugas Kelompok — Studi Kasus 6 Ujian Chunin Cloud Computing</title>
+  <title>Papan Catatan Tugas Kelompok</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-ground: #f4f6f9;
@@ -39,11 +39,16 @@
       --danger-bg: #fef2f2;
       --danger-border: #fecaca;
       --font-sans: 'Public Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      scrollbar-color: #94a3b8 #edf1f7;
     }
 
     *, *::before, *::after {
       box-sizing: border-box;
+    }
+
+    ::selection {
+      background-color: #dbeafe;
+      color: #0f1f38;
     }
 
     body {
@@ -53,24 +58,25 @@
       font-family: var(--font-sans);
       font-size: 1rem;
       line-height: 1.55;
+      caret-color: var(--accent-primary);
       -webkit-font-smoothing: antialiased;
     }
 
     h1, h2 {
       margin: 0;
       text-wrap: balance;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 1.85rem;
       line-height: 1.2;
       font-weight: 700;
       color: var(--text-on-navy);
     }
 
     h2 {
-      font-size: 1.375rem;
+      font-size: 1.3rem;
       line-height: 1.3;
       font-weight: 700;
       color: var(--text-primary);
@@ -82,16 +88,11 @@
       max-width: 68ch;
     }
 
-    .mono {
-      font-family: var(--font-mono);
-      font-variant-numeric: tabular-nums;
-    }
-
     .tabular {
       font-variant-numeric: tabular-nums;
     }
 
-    /* Operational Header */
+    /* Header */
     .ops-header {
       background-color: var(--bg-navy);
       color: var(--text-on-navy);
@@ -101,18 +102,18 @@
     .ops-header-inner {
       max-width: 1680px;
       margin: 0 auto;
-      padding: 0.7rem 1.5rem;
+      padding: 0.85rem 1.5rem;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 0.75rem;
+      gap: 1rem;
     }
 
     .ops-title-block {
       display: flex;
       flex-direction: column;
-      gap: 0.35rem;
+      gap: 0.25rem;
     }
 
     .ops-subtitle {
@@ -120,50 +121,41 @@
       font-size: 0.9375rem;
     }
 
-    .telemetry-strip {
-      background-color: var(--bg-navy-elevated);
-      border: 1px solid #2b446e;
-      border-radius: 6px;
-      padding: 0.65rem 1rem;
+    .header-stats {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 1rem;
-      font-size: 0.8125rem;
-      color: var(--text-on-navy);
+      gap: 1.25rem;
+      background-color: var(--bg-navy-elevated);
+      border: 1px solid #2b446e;
+      border-radius: 8px;
+      padding: 0.55rem 1.1rem;
     }
 
-    .telemetry-item {
+    .header-stat-item {
       display: flex;
-      align-items: center;
-      gap: 0.45rem;
+      align-items: baseline;
+      gap: 0.4rem;
     }
 
-    .telemetry-label {
+    .header-stat-value {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-on-navy);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .header-stat-label {
+      font-size: 0.8125rem;
       color: var(--text-on-navy-muted);
       font-weight: 500;
-    }
-
-    .telemetry-badge {
-      background-color: #065f46;
-      color: #ecfdf5;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .telemetry-badge.error {
-      background-color: #991b1b;
-      color: #fef2f2;
     }
 
     /* Main Workspace Layout */
     .workspace {
       max-width: 1680px;
       margin: 0 auto;
-      padding: 0.7rem 1.5rem 1rem;
+      padding: 0.75rem 1.5rem 0.75rem;
       display: flex;
       flex-direction: column;
       gap: 0.65rem;
@@ -191,42 +183,8 @@
       color: var(--text-secondary);
       font-size: 0.8125rem;
     }
-    /* Team Workload & Sprint Distribution Matrix */
-    .workload-summary-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 0.85rem;
-    }
 
-    .kpi-strip {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-    }
-
-    .kpi-metric {
-      display: flex;
-      align-items: baseline;
-      gap: 0.45rem;
-    }
-
-    .kpi-value {
-      font-size: 1.375rem;
-      font-weight: 700;
-      font-family: var(--font-mono);
-      font-variant-numeric: tabular-nums;
-      color: var(--text-primary);
-    }
-
-    .kpi-label {
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
-
+    /* Team Workload Bar & Member Filter */
     .distribution-bar {
       height: 10px;
       background-color: var(--bg-subtle);
@@ -239,7 +197,7 @@
 
     .dist-segment {
       height: 100%;
-      transition: width 180ms ease;
+      transition: width 180ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .dist-seg-0 { background-color: #1d4ed8; }
@@ -258,12 +216,12 @@
       background-color: var(--bg-subtle);
       border: 1px solid var(--border-line);
       border-radius: 6px;
-      padding: 0.45rem 0.75rem;
+      padding: 0.5rem 0.8rem;
       text-align: left;
       cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 0.15rem;
+      gap: 0.2rem;
       font-family: var(--font-sans);
       color: var(--text-primary);
     }
@@ -307,9 +265,10 @@
       font-size: 0.75rem;
       color: var(--text-secondary);
       width: 100%;
+      font-variant-numeric: tabular-nums;
     }
 
-    /* Two-column Operational Grid */
+    /* Stack Grid */
     .ops-grid {
       display: flex;
       flex-direction: column;
@@ -383,11 +342,6 @@
       background-color: var(--bg-surface);
       border: 1px solid var(--border-strong);
       border-radius: 5px;
-    }
-
-    textarea {
-      min-height: 82px;
-      resize: vertical;
     }
 
     input:focus-visible,
@@ -526,12 +480,19 @@
     .task-title-cell {
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.15rem;
     }
 
     .task-notes-cell {
       font-size: 0.8125rem;
       color: var(--text-secondary);
+    }
+
+    .category-tag {
+      display: inline-block;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-right: 0.3rem;
     }
 
     .badge {
@@ -581,8 +542,8 @@
     }
 
     .btn-row-status {
-      min-height: 36px;
-      padding: 0.35rem 0.65rem;
+      min-height: 32px;
+      padding: 0.3rem 0.65rem;
       background-color: var(--bg-subtle);
       color: var(--text-primary);
       border: 1px solid var(--border-strong);
@@ -598,8 +559,8 @@
     }
 
     .btn-row-delete {
-      min-height: 36px;
-      padding: 0.35rem 0.65rem;
+      min-height: 32px;
+      padding: 0.3rem 0.65rem;
       background-color: var(--danger-bg);
       color: var(--danger-fg);
       border: 1px solid var(--danger-border);
@@ -615,18 +576,30 @@
     }
 
     .empty-state {
-      padding: 2rem;
+      padding: 1.75rem;
       text-align: center;
       color: var(--text-secondary);
       font-size: 0.9375rem;
     }
 
+    .site-footer {
+      max-width: 1680px;
+      margin: 0 auto;
+      padding: 0.4rem 1.5rem 1.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
     @media (max-width: 1120px) {
-      .ops-grid {
-        grid-template-columns: 1fr;
-      }
       .member-roster {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .form-grid-3 {
+        grid-template-columns: 1fr;
       }
       .filter-toolbar {
         grid-template-columns: 1fr 1fr;
@@ -639,24 +612,24 @@
     <div class="ops-header-inner">
       <div class="ops-title-block">
         <h1>Papan Catatan Tugas Kelompok</h1>
-        <p class="ops-subtitle">Studi Kasus 6 Ujian Chunin Cloud Computing — Orkestrasi Fullstack Docker &amp; Otomatisasi Pipeline Jenkins CI/CD</p>
+        <p class="ops-subtitle">Ruang kerja bersama untuk mencatat pembagian tugas, tenggat waktu, dan perkembangan kerja tim.</p>
       </div>
-      <div class="telemetry-strip" aria-label="Status Koneksi Kontainer dan Penyimpanan">
-        <div class="telemetry-item">
-          <span class="telemetry-label">Domain Publik:</span>
-          <span class="mono">cc.fhanmazaya.my.id</span>
+      <div class="header-stats" aria-label="Ringkasan Tugas Tim">
+        <div class="header-stat-item">
+          <span class="header-stat-value" id="metric-total">0</span>
+          <span class="header-stat-label">Total Tugas</span>
         </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">Upstream DNS:</span>
-          <span class="mono">backend:5000 (app-net)</span>
+        <div class="header-stat-item">
+          <span class="header-stat-value" id="metric-todo">0</span>
+          <span class="header-stat-label">Belum Dikerjakan</span>
         </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">Named Volume:</span>
-          <span class="mono" id="telemetry-volume">team-task-data:/var/lib/backend_data/tasks.json</span>
+        <div class="header-stat-item">
+          <span class="header-stat-value" id="metric-prog">0</span>
+          <span class="header-stat-label">Sedang Berjalan</span>
         </div>
-        <div class="telemetry-item">
-          <span class="telemetry-label">HTTP Terakhir:</span>
-          <span class="telemetry-badge" id="telemetry-http">GET /tasks · 200 OK (4 ms)</span>
+        <div class="header-stat-item">
+          <span class="header-stat-value" id="metric-done">0</span>
+          <span class="header-stat-label">Selesai</span>
         </div>
       </div>
     </div>
@@ -667,30 +640,12 @@
     <section class="surface-panel" aria-labelledby="heading-workload">
       <div class="panel-header">
         <div>
-          <h2 id="heading-workload">Distribusi Beban Kerja Anggota Kelompok</h2>
-          <p class="panel-description">Klik kartu anggota untuk memfilter daftar tugas berdasarkan penanggung jawab secara langsung.</p>
-        </div>
-        <div class="kpi-strip">
-          <div class="kpi-metric">
-            <span class="kpi-value" id="metric-total">0</span>
-            <span class="kpi-label">Total Tugas</span>
-          </div>
-          <div class="kpi-metric">
-            <span class="kpi-value" id="metric-todo">0</span>
-            <span class="kpi-label">Todo</span>
-          </div>
-          <div class="kpi-metric">
-            <span class="kpi-value" id="metric-prog">0</span>
-            <span class="kpi-label">In Progress</span>
-          </div>
-          <div class="kpi-metric">
-            <span class="kpi-value" id="metric-done">0</span>
-            <span class="kpi-label">Done</span>
-          </div>
+          <h2 id="heading-workload">Pembagian Tugas Anggota Tim</h2>
+          <p class="panel-description">Klik nama anggota untuk menyaring daftar pekerjaan sesuai penanggung jawab.</p>
         </div>
       </div>
 
-      <div class="distribution-bar" aria-label="Proporsi tugas per anggota kelompok">
+      <div class="distribution-bar" aria-label="Proporsi tugas per anggota tim">
         <div class="dist-segment dist-seg-0" id="seg-0" style="width: 25%"></div>
         <div class="dist-segment dist-seg-1" id="seg-1" style="width: 25%"></div>
         <div class="dist-segment dist-seg-2" id="seg-2" style="width: 25%"></div>
@@ -701,44 +656,44 @@
         <button type="button" class="member-filter-btn" data-member="Rafhan Mazaya Fathurrahman" aria-pressed="false">
           <div class="member-top-line">
             <span class="member-name"><span class="member-dot dist-seg-0"></span>Rafhan Mazaya Fathurrahman</span>
-            <span class="mono" id="count-member-0">0 tugas</span>
+            <span class="tabular" id="count-member-0">0 tugas</span>
           </div>
           <div class="member-meta">
-            <span class="mono">NIM 101012300238</span>
-            <span id="pct-member-0">0% beban</span>
+            <span>Koordinasi &amp; Perencanaan</span>
+            <span id="pct-member-0">0% porsi</span>
           </div>
         </button>
 
         <button type="button" class="member-filter-btn" data-member="Zahra Talitha Putri" aria-pressed="false">
           <div class="member-top-line">
             <span class="member-name"><span class="member-dot dist-seg-1"></span>Zahra Talitha Putri</span>
-            <span class="mono" id="count-member-1">0 tugas</span>
+            <span class="tabular" id="count-member-1">0 tugas</span>
           </div>
           <div class="member-meta">
-            <span class="mono">NIM 101012300192</span>
-            <span id="pct-member-1">0% beban</span>
+            <span>Materi &amp; Dokumentasi</span>
+            <span id="pct-member-1">0% porsi</span>
           </div>
         </button>
 
         <button type="button" class="member-filter-btn" data-member="Clara Novita Fitriani" aria-pressed="false">
           <div class="member-top-line">
             <span class="member-name"><span class="member-dot dist-seg-2"></span>Clara Novita Fitriani</span>
-            <span class="mono" id="count-member-2">0 tugas</span>
+            <span class="tabular" id="count-member-2">0 tugas</span>
           </div>
           <div class="member-meta">
-            <span class="mono">NIM 101012330008</span>
-            <span id="pct-member-2">0% beban</span>
+            <span>Evaluasi &amp; Catatan</span>
+            <span id="pct-member-2">0% porsi</span>
           </div>
         </button>
 
         <button type="button" class="member-filter-btn" data-member="Rafif Riqullah Siregar" aria-pressed="false">
           <div class="member-top-line">
             <span class="member-name"><span class="member-dot dist-seg-3"></span>Rafif Riqullah Siregar</span>
-            <span class="mono" id="count-member-3">0 tugas</span>
+            <span class="tabular" id="count-member-3">0 tugas</span>
           </div>
           <div class="member-meta">
-            <span class="mono">NIM 101012300320</span>
-            <span id="pct-member-3">0% beban</span>
+            <span>Pemeriksaan &amp; Finalisasi</span>
+            <span id="pct-member-3">0% porsi</span>
           </div>
         </button>
       </div>
@@ -749,8 +704,8 @@
       <section class="surface-panel" aria-labelledby="heading-form">
         <div class="panel-header">
           <div>
-            <h2 id="heading-form">Tambah Catatan Tugas Baru</h2>
-            <p class="panel-description">Mengirim request <code class="mono">POST /tasks</code> ke kontainer backend.</p>
+            <h2 id="heading-form">Tambah Tugas Baru</h2>
+            <p class="panel-description">Isi rincian pekerjaan di bawah ini untuk ditambahkan ke daftar tugas bersama.</p>
           </div>
         </div>
 
@@ -760,20 +715,18 @@
 
             <div class="form-grid-3">
               <div class="form-field">
-                <label for="input-title">Judul Tugas Kelompok</label>
-                <input type="text" id="input-title" name="title" required aria-invalid="false" data-error="title-error" placeholder="Contoh: Pengujian Webhook Otomatis Jenkins" autocomplete="off">
-                <div id="title-error" class="field-error-msg">
-                  <span role="img" aria-label="Error">!</span> Masukkan judul tugas kelompok terlebih dahulu.
-                </div>
+                <label for="input-title">Judul Tugas</label>
+                <input type="text" id="input-title" name="title" required aria-invalid="false" data-error="title-error" placeholder="Contoh: Menyusun ringkasan hasil rapat mingguan" autocomplete="off">
+                <div id="title-error" class="field-error-msg">Judul tugas wajib diisi sebelum disimpan.</div>
               </div>
 
               <div class="form-field">
-                <label for="input-assignee">Penanggung Jawab Anggota</label>
+                <label for="input-assignee">Penanggung Jawab</label>
                 <select id="input-assignee" name="assignee">
-                  <option value="Rafhan Mazaya Fathurrahman">Rafhan Mazaya Fathurrahman (101012300238)</option>
-                  <option value="Zahra Talitha Putri">Zahra Talitha Putri (101012300192)</option>
-                  <option value="Clara Novita Fitriani">Clara Novita Fitriani (101012330008)</option>
-                  <option value="Rafif Riqullah Siregar">Rafif Riqullah Siregar (101012300320)</option>
+                  <option value="Rafhan Mazaya Fathurrahman">Rafhan Mazaya Fathurrahman</option>
+                  <option value="Zahra Talitha Putri">Zahra Talitha Putri</option>
+                  <option value="Clara Novita Fitriani">Clara Novita Fitriani</option>
+                  <option value="Rafif Riqullah Siregar">Rafif Riqullah Siregar</option>
                 </select>
               </div>
 
@@ -781,18 +734,18 @@
                 <div class="form-field">
                   <label for="input-priority">Prioritas</label>
                   <select id="input-priority" name="priority">
-                    <option value="High">High</option>
-                    <option value="Medium" selected>Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="High">Tinggi (High)</option>
+                    <option value="Medium" selected>Sedang (Medium)</option>
+                    <option value="Low">Rendah (Low)</option>
                   </select>
                 </div>
 
                 <div class="form-field">
                   <label for="input-status">Status Awal</label>
                   <select id="input-status" name="status">
-                    <option value="Todo" selected>Todo</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Done">Done</option>
+                    <option value="Todo" selected>Belum Dikerjakan</option>
+                    <option value="In Progress">Sedang Berjalan</option>
+                    <option value="Done">Selesai</option>
                   </select>
                 </div>
               </div>
@@ -800,8 +753,8 @@
 
             <div class="form-grid-3">
               <div class="form-field">
-                <label for="input-category">Modul / Kategori</label>
-                <input type="text" id="input-category" name="category" value="DevOps &amp; CI/CD" autocomplete="off">
+                <label for="input-category">Kategori Pekerjaan</label>
+                <input type="text" id="input-category" name="category" value="Perencanaan" placeholder="Contoh: Perencanaan, Dokumentasi, Riset" autocomplete="off">
               </div>
 
               <div class="form-field">
@@ -811,10 +764,10 @@
 
               <div class="form-grid-bottom">
                 <div class="form-field">
-                  <label for="input-notes">Catatan Teknis</label>
-                  <input type="text" id="input-notes" name="notes" placeholder="Rincian implementasi atau endpoint yang diuji..." autocomplete="off">
+                  <label for="input-notes">Catatan Tambahan</label>
+                  <input type="text" id="input-notes" name="notes" placeholder="Tulis rincian singkat atau hal yang perlu diperhatikan..." autocomplete="off">
                 </div>
-                <button type="submit" class="btn-primary" id="btn-submit-task">Simpan Tugas</button>
+                <button type="submit" class="btn-primary" id="btn-submit-task">Tambah Tugas</button>
               </div>
             </div>
           </fieldset>
@@ -825,21 +778,21 @@
       <section class="surface-panel" aria-labelledby="heading-board">
         <div class="panel-header">
           <div>
-            <h2 id="heading-board">Daftar Tugas &amp; Catatan Aktif</h2>
-            <p class="panel-description">Data persisten dari <code class="mono">/var/lib/backend_data/tasks.json</code> pada Named Volume <code class="mono">team-task-data</code>.</p>
+            <h2 id="heading-board">Daftar Tugas &amp; Catatan Tim</h2>
+            <p class="panel-description">Perbarui status pekerjaan secara langsung atau hapus tugas yang sudah selesai.</p>
           </div>
-          <button type="button" class="btn-secondary" id="btn-refresh">Muat Ulang Data</button>
+          <button type="button" class="btn-secondary" id="btn-refresh">Muat Ulang</button>
         </div>
 
         <search aria-label="Pencarian dan Filter Daftar Tugas">
           <div class="filter-toolbar">
             <div class="form-field">
-              <label for="filter-q">Cari Kata Kunci</label>
-              <input type="search" id="filter-q" placeholder="Judul, catatan, NIM...">
+              <label for="filter-q">Cari Tugas</label>
+              <input type="search" id="filter-q" placeholder="Cari judul, kategori, atau catatan...">
             </div>
 
             <div class="form-field">
-              <label for="filter-assignee">Anggota</label>
+              <label for="filter-assignee">Anggota Tim</label>
               <select id="filter-assignee">
                 <option value="">Semua Anggota</option>
                 <option value="Rafhan Mazaya Fathurrahman">Rafhan Mazaya Fathurrahman</option>
@@ -853,9 +806,9 @@
               <label for="filter-priority">Prioritas</label>
               <select id="filter-priority">
                 <option value="">Semua Prioritas</option>
-                <option value="High">High</option>
-                <option value="Medium">Medium</option>
-                <option value="Low">Low</option>
+                <option value="High">Tinggi (High)</option>
+                <option value="Medium">Sedang (Medium)</option>
+                <option value="Low">Rendah (Low)</option>
               </select>
             </div>
 
@@ -863,9 +816,9 @@
               <label for="filter-status">Status</label>
               <select id="filter-status">
                 <option value="">Semua Status</option>
-                <option value="Todo">Todo</option>
-                <option value="In Progress">In Progress</option>
-                <option value="Done">Done</option>
+                <option value="Todo">Belum Dikerjakan</option>
+                <option value="In Progress">Sedang Berjalan</option>
+                <option value="Done">Selesai</option>
               </select>
             </div>
 
@@ -874,26 +827,26 @@
         </search>
 
         <div id="live-status" class="status-banner" role="status" aria-live="polite">
-          <span id="live-status-text">Siap menerima operasi CRUD pada endpoint /tasks.</span>
-          <span class="mono" id="live-status-code">HTTP 200</span>
+          <span id="live-status-text">Menampilkan daftar tugas kelompok terkini.</span>
+          <span class="tabular" id="live-status-count"></span>
         </div>
 
         <div class="table-scroll" tabindex="0" role="region" aria-labelledby="heading-board">
           <table>
             <thead>
               <tr>
-                <th scope="col">Index</th>
-                <th scope="col">Judul Tugas &amp; Catatan Teknis</th>
+                <th scope="col">No</th>
+                <th scope="col">Tugas &amp; Catatan</th>
                 <th scope="col">Penanggung Jawab</th>
                 <th scope="col">Prioritas</th>
                 <th scope="col">Status</th>
                 <th scope="col">Tenggat</th>
-                <th scope="col">Aksi Real-Time</th>
+                <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody id="task-table-body">
               <tr>
-                <td colspan="7" class="empty-state">Memuat data tugas dari kontainer backend...</td>
+                <td colspan="7" class="empty-state">Memuat daftar tugas...</td>
               </tr>
             </tbody>
           </table>
@@ -901,6 +854,11 @@
       </section>
     </div>
   </main>
+
+  <footer class="site-footer">
+    <span>Papan Catatan Tugas Kelompok</span>
+    <span>Rafhan Mazaya Fathurrahman (101012300238) · Zahra Talitha Putri (101012300192) · Clara Novita Fitriani (101012330008) · Rafif Riqullah Siregar (101012300320)</span>
+  </footer>
 
   <script>
     (function () {
@@ -917,12 +875,23 @@
         "Done": "Todo"
       };
 
+      const STATUS_LABELS = {
+        "Todo": "Belum Dikerjakan",
+        "In Progress": "Sedang Berjalan",
+        "Done": "Selesai"
+      };
+
+      const PRIORITY_LABELS = {
+        "High": "Tinggi",
+        "Medium": "Sedang",
+        "Low": "Rendah"
+      };
+
       const taskForm = document.getElementById("task-form");
       const taskTableBody = document.getElementById("task-table-body");
       const liveStatus = document.getElementById("live-status");
       const liveStatusText = document.getElementById("live-status-text");
-      const liveStatusCode = document.getElementById("live-status-code");
-      const telemetryHttp = document.getElementById("telemetry-http");
+      const liveStatusCount = document.getElementById("live-status-count");
 
       const filterQ = document.getElementById("filter-q");
       const filterAssignee = document.getElementById("filter-assignee");
@@ -935,8 +904,6 @@
       let apiBase = "";
 
       async function apiRequest(path, options) {
-        const t0 = performance.now();
-        const method = (options && options.method) || "GET";
         let response;
         try {
           response = await fetch(apiBase + path, options);
@@ -952,21 +919,15 @@
             throw err;
           }
         }
-        const elapsed = Math.max(1, Math.round(performance.now() - t0));
         const data = await response.json().catch(function () { return {}; });
-        const badgeText = method + " " + path + " · " + response.status + " (" + elapsed + " ms)";
-        telemetryHttp.textContent = badgeText;
-        if (response.ok) {
-          telemetryHttp.classList.remove("error");
-        } else {
-          telemetryHttp.classList.add("error");
-        }
-        return { ok: response.ok, status: response.status, data: data, elapsed: elapsed };
+        return { ok: response.ok, status: response.status, data: data };
       }
 
-      function setBanner(message, codeText, variant) {
+      function setBanner(message, countText, variant) {
         liveStatusText.textContent = message;
-        liveStatusCode.textContent = codeText;
+        if (countText !== undefined) {
+          liveStatusCount.textContent = countText;
+        }
         liveStatus.className = "status-banner" + (variant ? " " + variant : "");
       }
 
@@ -1006,41 +967,42 @@
           const pctEl = document.getElementById("pct-member-" + idx);
           const segEl = document.getElementById("seg-" + idx);
           if (countEl) countEl.textContent = count + " tugas";
-          if (pctEl) pctEl.textContent = (safeTotal > 0 ? Math.round((count / safeTotal) * 100) : 0) + "% beban";
+          if (pctEl) pctEl.textContent = (safeTotal > 0 ? Math.round((count / safeTotal) * 100) : 0) + "% porsi";
           if (segEl) segEl.style.width = pct + "%";
         });
       }
 
       function renderTasks(tasks) {
         if (!tasks || tasks.length === 0) {
-          taskTableBody.innerHTML = '<tr><td colspan="7" class="empty-state">Tidak ada tugas yang cocok dengan filter saat ini.</td></tr>';
+          taskTableBody.innerHTML = '<tr><td colspan="7" class="empty-state">Belum ada tugas yang sesuai dengan pencarian saat ini.</td></tr>';
           return;
         }
 
-        const rowsHtml = tasks.slice().reverse().map(function (item) {
+        const reversed = tasks.slice().reverse();
+        const rowsHtml = reversed.map(function (item, displayIdx) {
           const idx = item.index;
           const nextSt = NEXT_STATUS[item.status] || "In Progress";
+          const statusLabel = STATUS_LABELS[item.status] || item.status;
+          const nextLabel = STATUS_LABELS[nextSt] || nextSt;
+          const prioLabel = PRIORITY_LABELS[item.priority] || item.priority;
           return (
             '<tr data-task-index="' + idx + '">' +
-              '<td class="mono">#' + idx + '</td>' +
+              '<td class="tabular">' + (displayIdx + 1) + '</td>' +
               '<td>' +
                 '<div class="task-title-cell">' + escapeHtml(item.title) + '</div>' +
                 '<div class="task-notes-cell">' +
-                  '<span class="mono">[' + escapeHtml(item.category || "Cloud") + ']</span> ' +
-                  escapeHtml(item.notes || "-") +
+                  '<span class="category-tag">' + escapeHtml(item.category || "Umum") + ' ·</span>' +
+                  escapeHtml(item.notes || "Tidak ada catatan tambahan.") +
                 '</div>' +
               '</td>' +
-              '<td>' +
-                '<div><strong>' + escapeHtml(item.assignee) + '</strong></div>' +
-                '<div class="mono task-notes-cell">NIM ' + escapeHtml(item.nim) + '</div>' +
-              '</td>' +
-              '<td><span class="' + priorityBadgeClass(item.priority) + '">' + escapeHtml(item.priority) + '</span></td>' +
-              '<td><span class="' + statusBadgeClass(item.status) + '">' + escapeHtml(item.status) + '</span></td>' +
-              '<td class="mono">' + escapeHtml(item.due_date || "-") + '</td>' +
+              '<td><strong>' + escapeHtml(item.assignee) + '</strong></td>' +
+              '<td><span class="' + priorityBadgeClass(item.priority) + '">' + escapeHtml(prioLabel) + '</span></td>' +
+              '<td><span class="' + statusBadgeClass(item.status) + '">' + escapeHtml(statusLabel) + '</span></td>' +
+              '<td class="tabular">' + escapeHtml(item.due_date || "-") + '</td>' +
               '<td>' +
                 '<div class="row-actions">' +
                   '<button type="button" class="btn-row-status" data-action="cycle-status" data-index="' + idx + '" data-next="' + escapeHtml(nextSt) + '">' +
-                    'Ubah ke ' + escapeHtml(nextSt) +
+                    'Tandai ' + escapeHtml(nextLabel) +
                   '</button>' +
                   '<button type="button" class="btn-row-delete" data-action="delete-task" data-index="' + idx + '">' +
                     'Hapus' +
@@ -1066,13 +1028,15 @@
         try {
           const res = await apiRequest(path, { method: "GET" });
           if (res.ok) {
-            renderTasks(res.data.tasks || []);
+            const list = res.data.tasks || [];
+            renderTasks(list);
             updateWorkloadMatrix(res.data.summary, res.data.total_all);
+            liveStatusCount.textContent = list.length + " tugas ditampilkan";
           } else {
-            setBanner(res.data.error || "Gagal memuat daftar tugas", "HTTP " + res.status, "error");
+            setBanner(res.data.error || "Tidak dapat memuat daftar tugas.", "", "error");
           }
         } catch (err) {
-          setBanner("Tidak dapat menghubungi kontainer backend:5000.", "NETWORK ERROR", "error");
+          setBanner("Koneksi ke layanan sedang terputus. Silakan coba muat ulang.", "", "error");
         }
       }
 
@@ -1142,20 +1106,20 @@
             syncAria(titleInput);
             document.getElementById("input-notes").value = "";
             setBanner(
-              "Tugas baru berhasil disimpan ke /var/lib/backend_data/tasks.json pada index #" + res.data.index + ".",
-              "HTTP " + res.status + " Created",
+              "Tugas \"" + payload.title + "\" berhasil ditambahkan ke daftar.",
+              undefined,
               "success"
             );
             await loadTasks();
           } else {
             setBanner(
-              res.data.error || "Validasi gagal saat menambah tugas.",
-              "HTTP " + res.status + " Bad Request",
+              res.data.error || "Judul tugas wajib diisi sebelum disimpan.",
+              undefined,
               "error"
             );
           }
         } catch (err) {
-          setBanner("Gagal mengirim request POST /tasks ke backend.", "NETWORK ERROR", "error");
+          setBanner("Tidak dapat menyimpan tugas saat ini. Silakan coba lagi.", undefined, "error");
         }
       });
 
@@ -1172,24 +1136,26 @@
               method: "DELETE"
             });
             if (res.ok) {
+              const removedTitle = res.data.removed && res.data.removed.title ? res.data.removed.title : "Tugas";
               setBanner(
-                "Tugas pada index #" + index + " (\"" + (res.data.removed && res.data.removed.title ? res.data.removed.title : "") + "\") berhasil dihapus dari tasks.json.",
-                "HTTP " + res.status + " OK",
+                "Tugas \"" + removedTitle + "\" telah dihapus dari daftar.",
+                undefined,
                 "success"
               );
               await loadTasks();
             } else {
               setBanner(
-                res.data.error || "Gagal menghapus tugas.",
-                "HTTP " + res.status,
+                res.data.error || "Gagal menghapus tugas dari daftar.",
+                undefined,
                 "error"
               );
             }
           } catch (err) {
-            setBanner("Gagal mengirim request DELETE ke backend.", "NETWORK ERROR", "error");
+            setBanner("Tidak dapat menghapus tugas saat ini.", undefined, "error");
           }
         } else if (action === "cycle-status") {
           const nextStatus = button.getAttribute("data-next");
+          const nextLabel = STATUS_LABELS[nextStatus] || nextStatus;
           try {
             const res = await apiRequest("/tasks?index=" + encodeURIComponent(index), {
               method: "PATCH",
@@ -1198,16 +1164,16 @@
             });
             if (res.ok) {
               setBanner(
-                "Status tugas index #" + index + " diperbarui menjadi \"" + nextStatus + "\".",
-                "HTTP " + res.status + " OK",
+                "Status tugas diperbarui menjadi \"" + nextLabel + "\".",
+                undefined,
                 "success"
               );
               await loadTasks();
             } else {
-              setBanner(res.data.error || "Gagal memperbarui status tugas.", "HTTP " + res.status, "error");
+              setBanner(res.data.error || "Gagal memperbarui status tugas.", undefined, "error");
             }
           } catch (err) {
-            setBanner("Gagal mengirim request PATCH ke backend.", "NETWORK ERROR", "error");
+            setBanner("Tidak dapat memperbarui status tugas saat ini.", undefined, "error");
           }
         }
       });

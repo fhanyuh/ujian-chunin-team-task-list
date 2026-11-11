@@ -19,47 +19,47 @@ VALID_STATUSES = ("Todo", "In Progress", "Done")
 
 DEFAULT_SEED_TASKS = [
     {
-        "title": "Arsitektur Docker Compose & Isolasi Custom Bridge Network app-net",
+        "title": "Menyusun jadwal kerja dan pembagian tugas mingguan",
         "assignee": "Rafhan Mazaya Fathurrahman",
         "nim": "101012300238",
         "priority": "High",
         "status": "Done",
-        "category": "Infrastructure & Network",
-        "due_date": "2026-11-10",
-        "notes": "Konfigurasi komunikasi DNS internal frontend ke backend:5000 di jaringan app-net.",
+        "category": "Perencanaan",
+        "due_date": "2026-11-12",
+        "notes": "Membagi target pekerjaan mingguan untuk setiap anggota kelompok.",
         "created_at": "2026-11-08T08:00:00+00:00",
     },
     {
-        "title": "Implementasi REST API Python & Validasi Endpoint CRUD /tasks",
+        "title": "Menyiapkan draf materi dan poin bahasan diskusi",
         "assignee": "Zahra Talitha Putri",
         "nim": "101012300192",
         "priority": "High",
         "status": "In Progress",
-        "category": "Backend API",
-        "due_date": "2026-11-11",
-        "notes": "Penyediaan endpoint GET, POST, PATCH, dan DELETE /tasks?index=X beserta kode status HTTP 200/201/400/404.",
+        "category": "Dokumentasi",
+        "due_date": "2026-11-13",
+        "notes": "Merangkum referensi utama dan menyusun kerangka materi kelompok.",
         "created_at": "2026-11-08T09:15:00+00:00",
     },
     {
-        "title": "Pengujian Data Immunity Named Volume team-task-data & Bind Mount UI",
+        "title": "Merapikan catatan hasil rapat dan daftar revisi",
         "assignee": "Clara Novita Fitriani",
         "nim": "101012330008",
         "priority": "Medium",
         "status": "In Progress",
-        "category": "Storage & Frontend UI",
-        "due_date": "2026-11-12",
-        "notes": "Simulasi docker rm -f team-task-backend untuk membuktikan persistensi tasks.json dan live update index.html.",
+        "category": "Evaluasi",
+        "due_date": "2026-11-14",
+        "notes": "Mencatat masukan dari anggota tim dan memperbarui daftar tindak lanjut.",
         "created_at": "2026-11-08T10:30:00+00:00",
     },
     {
-        "title": "Otomatisasi Jenkinsfile 5-Stage Pipeline & GitHub Webhook via ngrok",
+        "title": "Mengecek kelengkapan berkas sebelum dikumpulkan",
         "assignee": "Rafif Riqullah Siregar",
         "nim": "101012300320",
         "priority": "High",
         "status": "Todo",
-        "category": "CI/CD Pipeline",
-        "due_date": "2026-11-13",
-        "notes": "Integrasi GitHub PAT, ngrok tunnel, dan pengujian otomatis git push ke branch main.",
+        "category": "Pemeriksaan",
+        "due_date": "2026-11-15",
+        "notes": "Memastikan seluruh bagian dokumen dan lampiran akhir sudah sesuai.",
         "created_at": "2026-11-08T11:45:00+00:00",
     },
 ]
@@ -281,7 +281,7 @@ class TaskBoardAPIHandler(BaseHTTPRequestHandler):
         if status not in VALID_STATUSES:
             status = "Todo"
 
-        category = str(payload.get("category") or "Cloud & DevOps").strip()
+        category = str(payload.get("category") or "Perencanaan").strip()
         due_date = str(payload.get("due_date") or "2026-11-15").strip()
         notes = str(payload.get("notes") or "").strip()
 
